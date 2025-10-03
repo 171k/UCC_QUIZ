@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UCC Cyberquiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="assets/halo.png">
+  <meta name="description" content="Cyberquiz landing page">
+</head>
+<body>
+  <noscript>This site requires JavaScript.</noscript>
+
+  <div class="app" style="max-width:720px">
+    <section class="screen active menu-home" aria-labelledby="title" style="margin-top: 200px">
+      <h1 id="title" class="app-title pixel">⚡UCC CYBERQUIZ⚡</h1>
+      <p class="tagline pixel">Ready when you are.</p>
+      <div class="menu-npc" aria-label="Guide">
+        <div class="npc-chat" aria-hidden="true"></div>
+        <div class="npc" id="npc-171k">
+          <div class="sprite" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="menu-stack" aria-label="Main menu actions">
+        <a id="nav-play" class="btn menu primary pixel link-clean" href="quiz.html" role="button">Deploy Cyberhero</a>
+        <a id="nav-leaderboard" class="btn menu pixel link-clean" href="leaderboard.html" role="button">Show Leaderboard</a>
+      </div>
+    </section>
+    <footer class="site-footer pixel" aria-label="Footer">
+      <p>© <span id="year"></span> UiTM Cyberheroes Club. All rights reserved.</p>
+    </footer>
+  </div>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // play start audio on navigation clicks
+    const startAudio = new Audio('assets/audio/startquiz.mp3');
+    const npcAudio = new Audio('assets/audio/171k.mp3');
+    function clickWithSound(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('click', () => { try { startAudio.currentTime = 0; startAudio.play(); } catch(e) {} });
+    }
+    clickWithSound('nav-play');
+    clickWithSound('nav-leaderboard');
+
+    // NPC fun interaction: win pose + audio
+    const npc = document.getElementById('npc-171k');
+    if (npc) {
+      npc.style.cursor = 'pointer';
+      npc.addEventListener('click', () => {
+        try { npcAudio.currentTime = 0; npcAudio.play(); } catch(e) {}
+        npc.classList.add('win');
+        // return to idle after 1.2s
+        setTimeout(() => npc.classList.remove('win'), 1200);
+      });
+    }
+  </script>
+</body>
+</html>
+
+
+
