@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UCC Cyberquiz ⚡ — Leaderboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app" style="max-width:960px">
+    <section class="screen active" aria-labelledby="lb-title">
+      <h1 id="lb-title" class="app-title pixel">Cyberquiz Leaderboard!</h1>
+      <div class="leaderboard card">
+        <h3 class="section-subtitle">Top 20 Cyberheroes Today!</h3>
+        <ol class="lb-list" id="full-lb"></ol>
+        <p class="lb-note">Scores update as games finish.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn" href="index.html">Back</a>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    (async function () {
+      const list = document.getElementById('full-lb');
+      if (!list) return;
+      list.innerHTML = '<li>Loading…</li>';
+      try {
+        const res = await fetch(`${LEADERBOARD_URL}?limit=20`);
+        const data = await res.json();
+        if (!data || data.ok === false || !Array.isArray(data.rows)) throw new Error('Bad data');
+        list.innerHTML = '';
+        const seen = new Set();
+        data.rows.forEach((r) => {
+          const key = `${r.name}|${r.score}`;
+          if (seen.has(key)) return;
+          seen.add(key);
+          const li = document.createElement('li');
+          li.textContent = `${r.name} — ${r.score}`;
+          list.appendChild(li);
+        });
+      } catch (e) {
+        list.innerHTML = '<li>Could not load leaderboard.</li>';
+      }
+    })();
+  </script>
+</body>
+</html>
+
