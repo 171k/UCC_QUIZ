@@ -28,11 +28,12 @@ function playAudio(a) {
 function stopAudio(a) { if (!a) return; a.pause(); a.currentTime = 0; }
 
 const sfxByAvatar = {
-  A: createAudio(AUDIO_BASE + 'A.mp3', { volume: 0.9 }),
-  B: createAudio(AUDIO_BASE + 'B.mp3', { volume: 0.9 }),
-  C: createAudio(AUDIO_BASE + 'C.mp3', { volume: 0.9 }),
-  D: createAudio(AUDIO_BASE + 'D.mp3', { volume: 0.9 }),
-  E: createAudio(AUDIO_BASE + 'E.mp3', { volume: 0.9 })
+  A: createAudio(AUDIO_BASE + 'A.mp3', { volume: 1 }),
+  B: createAudio(AUDIO_BASE + 'B.mp3', { volume: 1 }),
+  C: createAudio(AUDIO_BASE + 'C.mp3', { volume: 0.4 }),
+  D: createAudio(AUDIO_BASE + 'D.mp3', { volume: 0.4 }),
+  E: createAudio(AUDIO_BASE + 'E.mp3', { volume: 0.4 }),
+  F: createAudio(AUDIO_BASE + 'F.mp3', { volume: 0.4 })
 };
 const sfxStartQuiz = createAudio(AUDIO_BASE + 'startquiz.mp3', { volume: 0.9 });
 const bgmBattle = createAudio(AUDIO_BASE + 'battle.mp3', { loop: true, volume: 0.6 });
@@ -41,6 +42,16 @@ const sfxDefeat = createAudio(AUDIO_BASE + 'defeat.mp3', { volume: 0.9 });
 const sfxHit = createAudio(AUDIO_BASE + 'hit.mp3', { volume: 0.9 });
 const sfxShoot = createAudio(AUDIO_BASE + 'shoot.mp3', { volume: 0.9 });
 function stopAllBgm() { stopAudio(bgmBattle); }
+
+// Expose references for volume UI
+window.__sfxStartRef = sfxStartQuiz;
+window.__bgmBattleRef = bgmBattle;
+window.__sfxVictoryRef = sfxVictory;
+window.__sfxDefeatRef = sfxDefeat;
+window.__sfxHitRef = sfxHit;
+window.__sfxShootRef = sfxShoot;
+// last-played avatar sfx (updated on click)
+window.__sfxAvatarRef = sfxByAvatar.A;
 
 // Elements
 const screenLanding = document.getElementById('screen-landing');
@@ -66,6 +77,7 @@ const hudTimer = document.getElementById('hud-timer');
 const questionText = document.getElementById('question-text');
 const optionsList = document.getElementById('options');
 const feedback = document.getElementById('feedback');
+const factNote = document.getElementById('fact-note');
 
 const endName = document.getElementById('end-name');
 const endScore = document.getElementById('end-score');
@@ -109,6 +121,7 @@ function ensureHitOverlay(container, avatarKey) {
   else if (avatarKey === 'C') anim = 'hit-C 300ms steps(1) 1';
   else if (avatarKey === 'D') anim = 'hit-D 300ms steps(1) 1';
   else if (avatarKey === 'E') anim = 'hit-E 300ms steps(1) 1';
+  else if (avatarKey === 'F') anim = 'hit-F 300ms steps(1) 1';
   else anim = 'hit-A 300ms steps(1) 1';
   overlay.style.animation = 'none';
   // Reflow
@@ -198,6 +211,11 @@ function renderQuestion() {
   const q = shuffledQuestions[currentIndex % shuffledQuestions.length];
   questionText.textContent = q.question;
   optionsList.innerHTML = '';
+  // random fact per question
+  if (factNote) {
+    const f = FACTS[Math.floor(Math.random() * FACTS.length)];
+    factNote.textContent = f || '';
+  }
 
   q.options.forEach((opt, idx) => {
     const li = document.createElement('li');
@@ -336,7 +354,9 @@ if (avatarGrid) {
     card.classList.add('selected');
     selectedAvatar = card.getAttribute('data-avatar');
     // Play avatar select sfx
-    playAudio(sfxByAvatar[selectedAvatar]);
+    const a = sfxByAvatar[selectedAvatar];
+    window.__sfxAvatarRef = a; // for volume panel
+    playAudio(a);
     if (btnBeginQuiz) btnBeginQuiz.disabled = false;
   });
 }
@@ -376,6 +396,19 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// Fun cybersecurity facts (10)
+const FACTS = [
+  'Our head club advisor is Dr Fakariah Hani',
+  'UiTM Cyberheroes Club focuses on CTF!',
+  'Capture The Flag is a competition where player perform hacking to get flags',
+  'Did you know? as of now UiTM Cyberheroes Club have over 300 members!',
+  'UCC. Unite. Competitive. Captivate.',
+  'We won alot of hacking competitions!',
+  'In 2024, UCC placed 5th in Malaysia Team Ranking (via CTFTime)',
+  'We conduct workshop every year, dont forget to join!',
+  'Join us to immense yourself into the world of cybersecurity!',
+  'Review app permissions. If it does not need it, do not grant it.'
+];
 // === Leaderboard helpers ===
 async function submitScore(name, scoreValue, avatar) {
   try {
