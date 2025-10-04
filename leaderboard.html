@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UCC Cyberquiz ⚡ — Leaderboard</title>
+  <title>Cyberquiz Leaderboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="assets/halo.png">
 </head>
 <body>
   <div class="app" style="max-width:960px">
@@ -15,7 +16,7 @@
       <h1 id="lb-title" class="app-title pixel">Cyberquiz Leaderboard!</h1>
       <div class="leaderboard card">
         <h3 class="section-subtitle">Top 20 Cyberheroes Today!</h3>
-        <ol class="lb-list" id="full-lb"></ol>
+        <ol class="lb-board" id="full-lb"></ol>
         <p class="lb-note">Scores update as games finish.</p>
       </div>
       <div class="btn-row">
@@ -29,23 +30,38 @@
     (async function () {
       const list = document.getElementById('full-lb');
       if (!list) return;
-      list.innerHTML = '<li>Loading…</li>';
+      list.innerHTML = '<li class="lb-row"><span class="lb-name">Loading…</span></li>';
       try {
         const res = await fetch(`${LEADERBOARD_URL}?limit=20`);
         const data = await res.json();
         if (!data || data.ok === false || !Array.isArray(data.rows)) throw new Error('Bad data');
         list.innerHTML = '';
         const seen = new Set();
-        data.rows.forEach((r) => {
-          const key = `${r.name}|${r.score}`;
-          if (seen.has(key)) return;
-          seen.add(key);
+        data.rows.forEach((r, idx) => {
+          const key = `${r.name}|${r.score}|${r.avatar}`;
+          if (seen.has(key)) return; seen.add(key);
           const li = document.createElement('li');
-          li.textContent = `${r.name} — ${r.score}`;
+          li.className = `lb-row rank-${idx+1}`;
+          const av = (r.avatar||'A');
+          li.innerHTML = `
+            <div class="lb-rank">${idx+1}</div>
+            <div class="lb-avatar">
+              <div class="lb-avatar-sprite hero" data-avatar="${av}"><div class="sprite"></div></div>
+            </div>
+            <div class="lb-name">${(r.name||'Unknown')}</div>
+            <div class="lb-stars"></div>
+            <div class="lb-score">${Number(r.score||0)}</div>
+          `;
           list.appendChild(li);
         });
+        if (!list.children.length) {
+          const li = document.createElement('li');
+          li.className = 'lb-row';
+          li.innerHTML = '<div class="lb-rank">–</div><div class="lb-avatar">-</div><div class="lb-name">No scores yet</div><div class="lb-stars"></div><div class="lb-score">0</div>';
+          list.appendChild(li);
+        }
       } catch (e) {
-        list.innerHTML = '<li>Could not load leaderboard.</li>';
+        list.innerHTML = '<li class="lb-row"><div class="lb-name">Could not load leaderboard.</div></li>';
       }
     })();
   </script>
