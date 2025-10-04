@@ -27,7 +27,18 @@
         <input id="player-name" name="player-name" type="text" placeholder="e.g., g00s3" required minlength="1" maxlength="24" autocomplete="name" />
         <button id="btn-start" type="submit" class="btn primary">Continue</button>
       </form>
-      
+      <br>
+      <p style="text-align: center;" class="lb-note">Be creative, agent!</p>
+      <!-- Crowd strip decoration -->
+      <div class="crowd-strip" aria-hidden="true"></div>
+      <div class="crowd-bubbles" aria-hidden="true">
+        <img src="assets/please.png" alt="" class="bubble b1" />
+        <img src="assets/helpus.png" alt="" class="bubble b2" />
+        <img src="assets/please.png" alt="" class="bubble b3" />
+        <img src="assets/helpus.png" alt="" class="bubble b4" />
+        <img src="assets/please.png" alt="" class="bubble b5" />
+        <img src="assets/helpus.png" alt="" class="bubble b6" />
+      </div>
     </section>
 
     <!-- Character Select Screen -->
@@ -54,6 +65,10 @@
         <button class="avatar-card" data-avatar="E" role="listitem" aria-label="Avatar E">
           <div class="avatar-illus hero" aria-hidden="true"></div>
           <span class="avatar-label">ichimon</span>
+        </button>
+        <button class="avatar-card" data-avatar="F" role="listitem" aria-label="Avatar F">
+          <div class="avatar-illus hero" aria-hidden="true"></div>
+          <span class="avatar-label">c1nn4m0n</span>
         </button>
       </div>
       <div class="btn-row">
@@ -96,6 +111,7 @@
           <ul id="options" class="options" role="list"></ul>
         </div>
         <div id="feedback" class="feedback" aria-live="assertive" aria-atomic="true"></div>
+        <p id="fact-note" class="lb-note" style="text-align:center;"></p>
       </main>
     </section>
 
@@ -138,7 +154,7 @@
     <section id="screen-leaderboard" class="screen" aria-labelledby="lb-title">
       <h2 id="lb-title" class="section-title">Leaderboard</h2>
       <div class="leaderboard card">
-        <h3 class="section-subtitle">Top Agents (placeholder)</h3>
+        <h3 class="section-subtitle">Top Agents</h3>
         <ol class="lb-list">
           <li>Nova — 15</li>
           <li>Ace — 12</li>
@@ -153,6 +169,41 @@
 
   <script src="questions.js"></script>
   <script src="script.js"></script>
+  <!-- Volume controls -->
+  <button class="vol-btn" id="btn-volume" title="Audio Settings">🔊</button>
+  <div class="vol-panel" id="panel-volume" style="display:none">
+    <h4>Audio Levels</h4>
+    <div class="vol-row"><label>Avatar SFX</label><input type="range" id="vol-avatar" min="0" max="1" step="0.01"></div>
+    <div class="vol-row"><label>Start</label><input type="range" id="vol-start" min="0" max="1" step="0.01"></div>
+    <div class="vol-row"><label>Battle BGM</label><input type="range" id="vol-battle" min="0" max="1" step="0.01"></div>
+    <div class="vol-row"><label>Correct (Shoot)</label><input type="range" id="vol-shoot" min="0" max="1" step="0.01"></div>
+    <div class="vol-row"><label>Wrong (Hit)</label><input type="range" id="vol-hit" min="0" max="1" step="0.01"></div>
+    <div class="vol-row"><label>Victory</label><input type="range" id="vol-victory" min="0" max="1" step="0.01"></div>
+    <div class="vol-row"><label>Defeat</label><input type="range" id="vol-defeat" min="0" max="1" step="0.01"></div>
+  </div>
+  <script>
+    (function(){
+      const btn = document.getElementById('btn-volume');
+      const panel = document.getElementById('panel-volume');
+      if (!btn || !panel) return;
+      btn.addEventListener('click', ()=>{
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+      });
+      // wire ranges to global audio in script.js
+      function bind(id, getter){
+        const el = document.getElementById(id); if(!el) return;
+        const a = getter(); if (a) el.value = a.volume;
+        el.addEventListener('input', ()=>{ const au = getter(); if(au){ au.volume = Number(el.value); }});
+      }
+      bind('vol-avatar', ()=> window.__sfxAvatarRef);
+      bind('vol-start', ()=> window.__sfxStartRef);
+      bind('vol-battle', ()=> window.__bgmBattleRef);
+      bind('vol-shoot', ()=> window.__sfxShootRef);
+      bind('vol-hit', ()=> window.__sfxHitRef);
+      bind('vol-victory', ()=> window.__sfxVictoryRef);
+      bind('vol-defeat', ()=> window.__sfxDefeatRef);
+    })();
+  </script>
 </body>
 </html>
 
