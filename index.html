@@ -36,11 +36,28 @@
       <p>© <span id="year"></span> UiTM Cyberheroes Club. All rights reserved.</p>
     </footer>
   </div>
+  <button class="vol-btn" id="btn-mute" title="Mute/Unmute">🔊</button>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
     // play start audio on navigation clicks
     const startAudio = new Audio('assets/audio/startquiz.mp3');
-    const npcAudio = new Audio('assets/audio/171k.mp3');
+    const npcAudio = new Audio('assets/audio/171k.mp3'); npcAudio.volume = 0.4;
+    // homepage BGM (cirno)
+    const homeBgm = new Audio('assets/audio/cirno.mp3');
+    homeBgm.loop = true; homeBgm.volume = 0.5;
+    function tryPlayBgm(){ try { homeBgm.play(); } catch(e) {} }
+    // try autoplay, then ensure it starts on first interaction
+    tryPlayBgm();
+    const enableOnInteract = () => { tryPlayBgm(); document.removeEventListener('click', enableOnInteract); };
+    document.addEventListener('click', enableOnInteract);
+    // mute toggle
+    const muteBtn = document.getElementById('btn-mute');
+    if (muteBtn) {
+      muteBtn.addEventListener('click', () => {
+        homeBgm.muted = !homeBgm.muted;
+        muteBtn.textContent = homeBgm.muted ? '🔇' : '🔊';
+      });
+    }
     function clickWithSound(id) {
       const el = document.getElementById(id);
       if (!el) return;
