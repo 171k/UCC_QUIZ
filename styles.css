@@ -9,6 +9,19 @@
   87.5% { background-image: url('assets/idle/E/drone7.png'); }
   100% { background-image: url('assets/idle/E/drone0.png'); }
 }
+@keyframes idle-F {
+  0% { background-image: url('assets/idle/F/bot0.png'); }
+  10% { background-image: url('assets/idle/F/bot1.png'); }
+  20% { background-image: url('assets/idle/F/bot2.png'); }
+  30% { background-image: url('assets/idle/F/bot3.png'); }
+  40% { background-image: url('assets/idle/F/bot4.png'); }
+  50% { background-image: url('assets/idle/F/bot5.png'); }
+  60% { background-image: url('assets/idle/F/bot12.png'); }
+  70% { background-image: url('assets/idle/F/bot13.png'); }
+  80% { background-image: url('assets/idle/F/bot14.png'); }
+  90% { background-image: url('assets/idle/F/bot15.png'); }
+  100% { background-image: url('assets/idle/F/bot16.png'); }
+}
 .hero[data-avatar="E"] .sprite { animation: idle-E 800ms steps(1) infinite; }
 .avatar-card[data-avatar="E"] .avatar-illus { animation: idle-E 800ms steps(1) infinite; }
 @keyframes win-E {
@@ -83,6 +96,27 @@ body {
   opacity: 0.22;
   pointer-events: none;
 }
+
+/* Crowd stripe at bottom of name screen */
+.crowd-strip {
+  position: fixed; left: 0; right: 0; bottom: 0; height: 120px;
+  background: url('assets/crowd.png') repeat-x left bottom / 360px auto;
+  pointer-events: none; opacity: 0.9;
+}
+.crowd-call { position: fixed; right: 96px; pointer-events: none; }
+.crowd-please { bottom: 140px; height: 56px; }
+.crowd-help { bottom: 200px; height: 56px; }
+
+/* Scattered speech bubbles above crowd */
+.crowd-bubbles { position: fixed; left: 0; right: 0; bottom: 30px; pointer-events: none; z-index: 5; height: 120px; }
+.crowd-bubbles .bubble { position: absolute; height: 72px; opacity: 0.95; filter: drop-shadow(0 2px 0 rgba(0,0,0,0.2)); animation: bubble-float 2.6s ease-in-out infinite; }
+.crowd-bubbles .b1 { left: 6%; animation-delay: 0s; }
+.crowd-bubbles .b2 { left: 22%; animation-delay: .3s; transform: scale(0.9); }
+.crowd-bubbles .b3 { left: 40%; animation-delay: .6s; }
+.crowd-bubbles .b4 { left: 58%; animation-delay: .15s; transform: scale(0.95); }
+.crowd-bubbles .b5 { left: 76%; animation-delay: .45s; }
+.crowd-bubbles .b6 { left: 90%; animation-delay: .15s; transform: scale(0.95); }
+@keyframes bubble-float { 0%,100% { transform: translateY(0) scale(var(--s,1)); } 50% { transform: translateY(-8px) scale(var(--s,1)); } }
 .tagline {
   text-align: center;
   color: color-mix(in oklab, var(--on-bg), transparent 40%);
@@ -164,6 +198,11 @@ body {
   0% { background-image: url('assets/hit/E/drone8.png'); }
   50% { background-image: url('assets/hit/E/drone17.png'); }
   100% { background-image: url('assets/hit/E/drone18.png'); }
+}
+@keyframes hit-F {
+  0% { background-image: url('assets/hit/F/bot36.png'); }
+  50% { background-image: url('assets/hit/F/bot37.png'); }
+  100% { background-image: url('assets/hit/F/bot38.png'); }
 }
 
 @keyframes hit-villain {
@@ -290,6 +329,19 @@ body {
   75%{background-image:url('assets/win/D/win22.png');}
   100%{background-image:url('assets/win/D/win28.png');}
 }
+@keyframes win-F {
+  0% { background-image: url('assets/win/F/bot24.png'); }
+  10% { background-image: url('assets/win/F/bot25.png'); }
+  20% { background-image: url('assets/win/F/bot26.png'); }
+  30% { background-image: url('assets/win/F/bot27.png'); }
+  40% { background-image: url('assets/win/F/bot28.png'); }
+  50% { background-image: url('assets/win/F/bot29.png'); }
+  60% { background-image: url('assets/win/F/bot30.png'); }
+  70% { background-image: url('assets/win/F/bot31.png'); }
+  80% { background-image: url('assets/win/F/bot32.png'); }
+  90% { background-image: url('assets/win/F/bot33.png'); }
+  100% { background-image: url('assets/win/F/bot34.png'); }
+}
 @keyframes win-villain {
   0%   { background-image: url('assets/win/villain/win5.png'); }
   20%  { background-image: url('assets/win/villain/win11.png'); }
@@ -332,6 +384,12 @@ body {
   80%{background-image:url('assets/death/D/death28.png');}
   100%{background-image:url('assets/death/D/death34.png');}
 }
+@keyframes death-F {
+  0% { background-image: url('assets/death/F/bot48.png'); }
+  33% { background-image: url('assets/death/F/bot49.png'); }
+  66% { background-image: url('assets/death/F/bot50.png'); }
+  100% { background-image: url('assets/death/F/bot51.png'); }
+}
 @keyframes death-villain {
   0%{background-image:url('assets/death/villain/death5.png');}
   20%{background-image:url('assets/death/villain/death11.png');}
@@ -345,6 +403,8 @@ body {
 .hero[data-avatar="B"] .sprite { animation: idle-B 600ms steps(1) infinite; transform: scaleX(-1); }
 .hero[data-avatar="C"] .sprite { animation: idle-C 600ms steps(1) infinite; transform: scaleX(-1); }
 .hero[data-avatar="D"] .sprite { animation: idle-D 600ms steps(1) infinite; transform: scaleX(-1); }
+.hero[data-avatar="E"] .sprite { animation: idle-E 800ms steps(1) infinite; }
+.hero[data-avatar="F"] .sprite { animation: idle-F 900ms steps(1) infinite; }
 .bot .sprite { animation: idle-villain 600ms steps(1) infinite; }
 
 /* Win/Death pose application (B and C face right) */
@@ -353,11 +413,13 @@ body {
 .win.pose[data-avatar="B"] .sprite { animation: win-B 750ms steps(1) infinite; transform: scaleX(-1); }
 .win.pose[data-avatar="C"] .sprite { animation: win-C 750ms steps(1) infinite; transform: scaleX(-1); }
 .win.bot .sprite { animation: win-villain 750ms steps(1) infinite; }
+.win.pose[data-avatar="F"] .sprite { animation: win-F 900ms steps(1) infinite; }
 
 .death.pose[data-avatar="A"] .sprite { animation: death-A 900ms steps(1) 1 forwards; }
 .death.pose[data-avatar="B"] .sprite { animation: death-B 900ms steps(1) 1 forwards; transform: scaleX(-1); }
 .death.pose[data-avatar="C"] .sprite { animation: death-C 900ms steps(1) 1 forwards; transform: scaleX(-1); }
 .death.bot .sprite { animation: death-villain 900ms steps(1) 1 forwards; }
+.death.pose[data-avatar="F"] .sprite { animation: death-F 900ms steps(1) 1 forwards; }
 .vs { font-weight: 800; color: var(--muted); }
 
 .player-form {
@@ -509,11 +571,107 @@ input[type="text"]:focus {
 .end-status.win { background: rgba(34,197,94,0.15); color: #22c55e; box-shadow: 0 0 0 6px rgba(34,197,94,0.12) inset; }
 .end-status.lose { background: rgba(239,68,68,0.15); color: #ef4444; box-shadow: 0 0 0 6px rgba(239,68,68,0.12) inset; }
 
+/* Fancy leaderboard list (full page) */
+.lb-board { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 10px; }
+.lb-row {
+  display: grid;
+  grid-template-columns: 44px 60px 1fr auto 72px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.75));
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.6);
+}
+.lb-rank { font-weight: 900; text-align: center; color: #0b1a3a; }
+.lb-avatar { 
+  width: calc(var(--sprite-size) * 1.6);
+  height: calc(var(--sprite-size) * 1.6);
+  border-radius: 8px;
+  background: transparent;
+  display: grid; place-items: center; 
+}
+.lb-name { font-weight: 800; color: #0b1a3a; }
+.lb-stars { color: #f59e0b; letter-spacing: 1px; font-size: 14px; text-align: right; }
+.lb-score { font-weight: 900; color: #0b1a3a; text-align: right; }
+
+/* Avatar sprite for leaderboard */
+.lb-avatar-sprite { 
+  --sprite-scale: 1.6; 
+  width: calc(var(--sprite-size) * var(--sprite-scale));
+  height: calc(var(--sprite-size) * var(--sprite-scale));
+  display: grid; place-items: center;
+}
+
+/* Volume panel */
+.vol-btn {
+  position: fixed; right: 16px; bottom: 16px; z-index: 30;
+  border: 0; border-radius: 999px; background: #ffffff; color: #111827;
+  width: 44px; height: 44px; display: grid; place-items: center; box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+.vol-panel {
+  position: fixed; right: 16px; bottom: 68px; z-index: 30; width: 280px;
+  background: rgba(255,255,255,0.97); border-radius: 14px; padding: 12px; box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+}
+.vol-panel h4 { margin: 0 0 8px; font-size: 14px; color: #0b1a3a; }
+.vol-row { display: grid; grid-template-columns: 1fr 52px; align-items: center; gap: 8px; margin: 8px 0; }
+.vol-row label { font-size: 12px; color: #374151; }
+.vol-row input[type="range"] { width: 100%; }
+
+/* Medal accents for top 3 */
+.lb-row.rank-1 { background: linear-gradient(180deg, #ffe8a3, #ffd36b); }
+.lb-row.rank-2 { background: linear-gradient(180deg, #e7ecf7, #cfd8ea); }
+.lb-row.rank-3 { background: linear-gradient(180deg, #ffd9b0, #ffc28a); }
+.lb-row.rank-1 .lb-rank::before { content: '🥇'; margin-right: 4px; }
+.lb-row.rank-2 .lb-rank::before { content: '🥈'; margin-right: 4px; }
+.lb-row.rank-3 .lb-rank::before { content: '🥉'; margin-right: 4px; }
+
 @media (max-width: 640px) {
   .player-form { grid-template-columns: 1fr; }
   .hud { grid-template-columns: 1fr 1fr 1fr; }
   .arena { grid-template-columns: 1fr; }
   .vs { display: none; }
+}
+
+/* Tablet tweaks */
+@media (max-width: 768px) {
+  :root { --sprite-scale: 2.6; }
+  .app { padding: 16px 12px 40px; }
+  .menu-stack { width: min(520px, 94vw); }
+  .btn.menu { font-size: 18px; padding: 16px 20px; }
+  .btn.menu.primary { font-size: 20px; }
+  .lb-row { grid-template-columns: 40px 52px 1fr auto 64px; padding: 10px; gap: 8px; }
+  .vol-panel { width: 240px; right: 12px; bottom: 64px; }
+}
+
+/* Phone tweaks */
+@media (max-width: 480px) {
+  :root { --sprite-scale: 2.2; }
+  .app-title { font-size: 26px; }
+  .tagline { font-size: 14px; }
+  .menu-stack { gap: 12px; width: 92vw; }
+  .menu-npc .npc-chat { width: 220px; height: 120px; right: 46%; top: -6px; }
+  .stage.compact { transform: scale(0.96); }
+  .stage .avatar { min-height: 96px; padding: 6px; }
+  .hud { gap: 8px; }
+  .hud-item { padding: 10px; }
+  .hud-value { font-size: 18px; }
+  .options { gap: 8px; }
+  .option-btn { padding: 10px 12px; font-size: 15px; }
+  .avatar-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .lb-board { gap: 8px; }
+  .lb-row { grid-template-columns: 36px 48px 1fr auto 56px; padding: 8px 10px; }
+  .lb-avatar { width: calc(var(--sprite-size) * 1.4); height: calc(var(--sprite-size) * 1.4); }
+  .vol-btn { right: 12px; bottom: 12px; width: 42px; height: 42px; }
+  .vol-panel { width: 220px; right: 12px; bottom: 60px; }
+  .crowd-bubbles { bottom: 36px; }
+}
+
+/* Very small devices */
+@media (max-width: 360px) {
+  :root { --sprite-scale: 2; }
+  .avatar-grid { grid-template-columns: 1fr; }
+  .lb-row { grid-template-columns: 32px 44px 1fr auto 52px; }
 }
 
 /* Character select */
@@ -533,10 +691,12 @@ input[type="text"]:focus {
 .avatar-card[data-avatar="B"] .avatar-illus { animation: idle-B 600ms steps(1) infinite; transform: scaleX(-1); }
 .avatar-card[data-avatar="C"] .avatar-illus { animation: idle-C 600ms steps(1) infinite; transform: scaleX(-1); }
 .avatar-card[data-avatar="D"] .avatar-illus { animation: idle-D 600ms steps(1) infinite; transform: scaleX(-1); }
+.avatar-card[data-avatar="E"] .avatar-illus { animation: idle-E 800ms steps(1) infinite; }
+.avatar-card[data-avatar="F"] .avatar-illus { animation: idle-F 900ms steps(1) infinite; }
 .win.pose[data-avatar="D"] .sprite { animation: win-D 750ms steps(1) infinite; transform: scaleX(-1); }
 .death.pose[data-avatar="D"] .sprite { animation: death-D 900ms steps(1) 1 forwards; transform: scaleX(-1); }
 
-/* If you drop <img> tags inside sprite containers */
+/* img for sprite container sini */
 .sprite img, .avatar-illus img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
 
 
